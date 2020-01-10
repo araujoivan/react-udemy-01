@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, Image, StyleSheet } from 'react-native';
+import { View, Text, Button, Image, Dimensions, StyleSheet } from 'react-native';
 import BodyText from '../components/BodyText';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import MainButton from '../components/MainButton';
@@ -37,19 +37,19 @@ const styles = StyleSheet.create({
     },
 
     imageContainerOuter: {
-        borderRadius: 153,
+        borderRadius: Dimensions.get('window').width * 0.7 / 2 + 3,
         borderWidth: 3,
         borderColor: 'black',
-        width: 256,
-        height: 256
+        width: Dimensions.get('window').width * 0.7 + 6,
+        height: Dimensions.get('window').width * 0.7 + 6,
     },
 
     imageContainerInner: {
-        borderRadius: 150,
+        borderRadius:  Dimensions.get('window').width * 0.7 / 2,
         borderWidth: 3,
         borderColor: 'white',
-        width: 250,
-        height: 250,
+        width: Dimensions.get('window').width * 0.7,
+        height: Dimensions.get('window').width * 0.7,
         overflow: 'hidden'
     },
 
