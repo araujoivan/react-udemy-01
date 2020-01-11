@@ -1,23 +1,45 @@
-import React from 'react';
-import { View, Text, Button, Image, Dimensions, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
 import BodyText from '../components/BodyText';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import MainButton from '../components/MainButton';
 
 const GameOverScreen = props => {
+
+    const [availableWidth, setAvailableWidth]  = useState(Dimensions.get('window').width);
+    const [availableHeight, setAvailableHeight]  = useState(Dimensions.get('window').height);
+
+    useEffect(() => {
+
+        const updateLayout = () => {
+            setAvailableWidth(Dimensions.get('window').width);
+            setAvailableHeight(Dimensions.get('window').height);
+        };
+ 
+        Dimensions.addEventListener('change', updateLayout);
+
+        return () => {
+            Dimensions.removeEventListener('change', updateLayout);
+        }
+    })
+
    // for text components the styles is inherited...this is a breaking rule in react native that makes this component similar to html css rules
-    return (
+   return (
         <View style={styles.screen}>
             <BodyText>The Game is Over!</BodyText>
-            <View style={styles.imageContainerOuter}>
-                <View style={styles.imageContainerInner}>
-                    <Image  
-                        style={styles.image} 
-                        source={require('../assets/success.png')}
-                        resizeMode='cover'
-                    />
-                </View>
+            <View style={{...styles.imageContainer, ...{
+                width: availableWidth * 0.2,
+                height: availableWidth * 0.2,
+                borderRadius: (availableWidth * 0.2) / 2,
+                marginVertical: availableHeight / 30
+            }}}>
+                <Image  
+                    style={styles.image} 
+                    source={require('../assets/success.png')}
+                    resizeMode='cover'
+                />
             </View>
+            
             <BodyText style={styles.resultText}>The phone was able to find out the number <Text style={styles.highlight}>{props.userNumber}</Text> after <Text style={styles.highlight}>{props.roundsNumber}</Text> attempts.</BodyText>
             <MainButton onPress={props.onRestart}>NEW GAME</MainButton>
         </View>
@@ -36,20 +58,9 @@ const styles = StyleSheet.create({
         height: '100%'
     },
 
-    imageContainerOuter: {
-        borderRadius: Dimensions.get('window').width * 0.7 / 2 + 3,
-        borderWidth: 3,
-        borderColor: 'black',
-        width: Dimensions.get('window').width * 0.7 + 6,
-        height: Dimensions.get('window').width * 0.7 + 6,
-    },
-
-    imageContainerInner: {
-        borderRadius:  Dimensions.get('window').width * 0.7 / 2,
+    imageContainer: {
         borderWidth: 3,
         borderColor: 'white',
-        width: Dimensions.get('window').width * 0.7,
-        height: Dimensions.get('window').width * 0.7,
         overflow: 'hidden'
     },
 
